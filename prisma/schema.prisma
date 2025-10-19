@@ -19,6 +19,12 @@ enum Role {
   USER
 }
 
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
+
 model User {
   id            String    @id
   name          String
@@ -28,6 +34,10 @@ model User {
   role          Role      @default(USER)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now()) @updatedAt
+  
+  tickets       Ticket[] @relation("UserTickets")
+  assigned      Ticket[] @relation("AssignedTickets")
+  
   sessions      Session[]
   accounts      Account[]
 
@@ -78,4 +88,20 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+model Ticket {
+  id          String        @id @default(uuid())
+  title       String
+  description String
+
+  requester   User     @relation("UserTickets", fields: [requesterId], references: [id])
+  requesterId String
+  assignee    User?    @relation("AssignedTickets", fields: [assigneeId], references: [id])
+  assigneeId  String?
+
+  status      TicketStatus  @default(OPEN)
+
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at")
 }
