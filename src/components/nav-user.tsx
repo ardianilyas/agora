@@ -24,13 +24,29 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { User } from "better-auth"
+import { signOut } from "@/lib/auth-client"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 export function NavUser({
   user,
 }: {
   user: User
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
+
+  const router = useRouter();
+
+  const onSignOut = async () => {
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success("Signed out successfully");
+          router.push("/sign-in")
+        }
+      }
+    });
+  }
 
   return (
     <SidebarMenu>
@@ -70,7 +86,7 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={onSignOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>
