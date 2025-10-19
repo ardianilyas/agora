@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { headers } from "next/headers";
 
@@ -10,6 +11,7 @@ export const createContext = async (opts?: CreateNextContextOptions) => {
 
     return { 
         session,
+        prisma,
     };
 }
 
