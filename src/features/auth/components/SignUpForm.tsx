@@ -38,7 +38,7 @@ export default function SignUpForm() {
         onSuccess: (res) => {
             if (!res.error) {
                 toast.success("Signed up successfully.")
-                router.push("/")
+                router.push("/dashboard")
             } else {
                 toast.error(res.error.message)
             }
