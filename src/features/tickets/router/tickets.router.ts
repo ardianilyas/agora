@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { authProcedure, router } from "@/server/trpc/trpc";
+import { adminProcedure, authProcedure, router } from "@/server/trpc/trpc";
 import { createTicketSchema, getTicketSchema } from "../schema/ticket.schema";
 import { createTicket, getTicket } from "../service/ticket.service";
 import { TRPCError } from "@trpc/server";
@@ -24,5 +24,8 @@ export const ticketRouter = router({
                 message: error.message
             });
         };
+    }),
+    getAllTickets: adminProcedure.query(async ({ ctx }) => {
+        return await ctx.prisma.ticket.findMany();
     }),
 })
