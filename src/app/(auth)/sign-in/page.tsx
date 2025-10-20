@@ -4,12 +4,12 @@ import AuthTitle from "@/features/auth/components/ui/AuthTitle"
 
 export default function SignIn() {
   return (
-    <>
+    <div>
       <div className="mb-3">
         <AuthTitle>Welcome Back</AuthTitle>
         <AuthSubtitle>Let’s pick up right where you left off.</AuthSubtitle>
       </div>
       <SignInForm />
-    </>
+    </div>
   )
 }
