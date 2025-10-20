@@ -16,7 +16,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import { trpc } from "@/utils/trpc"
+import { useUserStore } from "@/features/auth/stores/useUserStore"
 
 // This is sample data.
 const data = {
@@ -57,7 +57,7 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: user } = trpc.user.me.useQuery();
+  const { user } = useUserStore();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

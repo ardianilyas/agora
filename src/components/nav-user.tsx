@@ -23,11 +23,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { User } from "better-auth"
 import { signOut } from "@/lib/auth-client"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { useUserStore } from "@/features/auth/stores/useUserStore"
+import { User, useUserStore } from "@/features/auth/stores/useUserStore"
 
 export function NavUser({
   user,
