@@ -30,7 +30,8 @@ export default function TicketList() {
                 ) : tickets && tickets.length > 0 ? (
                     <div className="my-4 grid grid-cols-1 md:grid-cols-2 space-x-4">
                         {tickets.map((ticket) => (
-                            <div
+                            <Link
+                            href={`/dashboard/tickets/${ticket.id}`}
                             key={ticket.id}
                             className="p-4 border border-neutral-200 rounded-lg"
                             >
@@ -41,7 +42,7 @@ export default function TicketList() {
                                 <span className="text-xs text-neutral-500">
                                     Status: {ticket.status}
                                 </span>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 ) : (
