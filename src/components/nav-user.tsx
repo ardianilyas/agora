@@ -27,6 +27,7 @@ import { User } from "better-auth"
 import { signOut } from "@/lib/auth-client"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { useUserStore } from "@/features/auth/stores/useUserStore"
 
 export function NavUser({
   user,
@@ -36,13 +37,15 @@ export function NavUser({
   const { isMobile } = useSidebar();
 
   const router = useRouter();
+  const { clearUser } = useUserStore();
 
   const onSignOut = async () => {
     await signOut({
       fetchOptions: {
         onSuccess: () => {
           toast.success("Signed out successfully");
-          router.push("/sign-in")
+          router.push("/sign-in");
+          clearUser();
         }
       }
     });
