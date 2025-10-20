@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from "@/components/ui/button"
 import { signInSchema, type SignInSchema } from "@/features/auth/schema/auth.schema"
-import { signIn } from "@/lib/auth-client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 import { TRPCError } from "@trpc/server"
@@ -15,10 +14,14 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import InputError from '@/components/InputError'
 import Link from 'next/link'
-
+import { useUserStore } from '../stores/useUserStore'
+import { trpc } from '@/utils/trpc'
+import { signIn } from '@/lib/auth-client'
 
 export default function SignInForm() {
-    const router = useRouter()
+    const router = useRouter();
+    const utils = trpc.useUtils();
+    const setUser = useUserStore((state) => state.setUser)
 
     const {
         register,
@@ -34,18 +37,26 @@ export default function SignInForm() {
 
     const mutation = useMutation({
         mutationFn: (data: SignInSchema) => signIn.email(data),
-        onSuccess: (res) => {
-            if (!res.error) {
-                toast.success("Signed in successfully.")
-                router.push("/dashboard")
-            } else {
+        onSuccess: async (res: any) => {
+            if (res.error) {
                 toast.error(res.error.message)
+                return;
             }
+
+            const user = await utils.user.me.fetch();
+
+            if(user) {
+                setUser(user);
+            }
+
+            toast.success("Sign in successfully.");
+            router.push("/dashboard");
         },
         onError: (error: any) => {
             if(error instanceof TRPCError) {
                 toast.error(error.message)
             } else {
+                console.log(error);
                 toast.error("Error signing in.")
             }
         },
