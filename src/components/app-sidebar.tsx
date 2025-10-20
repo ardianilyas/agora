@@ -1,10 +1,7 @@
 "use client"
 
-import * as React from "react"
-import {
-  GalleryVerticalEnd,
-  SquareTerminal,
-} from "lucide-react"
+import React from "react"
+import { GalleryVerticalEnd } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
@@ -17,8 +14,9 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { useUserStore } from "@/features/auth/stores/useUserStore"
+import { sidebarMenus } from "@/features/dashboard/config/sidebar.config"
+import { Role } from "@/generated/prisma"
 
-// This is sample data.
 const data = {
   teams: [
     {
@@ -27,39 +25,21 @@ const data = {
       plan: "Enterprise",
     },
   ],
-  navMain: [
-    {
-      title: "Tickets",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "Tickets",
-          url: "/dashboard/tickets",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-  ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUserStore();
+  
+  const role: Role = user?.role as Role ?? "USER";
+  const navItems = sidebarMenus[role];
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navItems} />
       </SidebarContent>
       <SidebarFooter>
         {user && <NavUser user={user} />}
