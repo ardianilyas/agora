@@ -1,3 +1,4 @@
+import { TicketStatus } from "@/generated/prisma";
 import z from "zod";
 
 export const createTicketSchema = z.object({
@@ -5,4 +6,15 @@ export const createTicketSchema = z.object({
     description: z.string().min(1, 'Description is required'),
 });
 
+export const getTicketSchema = z.object({
+    id: z.uuid(),
+});
+
+export const updateTicketSchema = z.object({
+    id: z.uuid(),
+    status: z.enum(TicketStatus),
+})
+
 export type CreateTicketSchema = z.infer<typeof createTicketSchema>;
+export type GetTicketSchema = z.infer<typeof getTicketSchema>;
+export type UpdateTicketSchema = z.infer<typeof updateTicketSchema>;
