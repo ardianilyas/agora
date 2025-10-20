@@ -8,14 +8,16 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    autoSignIn: false,
   },
+
   user: {
     additionalFields: {
       role: {
         type: "string",
-        input: false,
+        input: false, // tidak bisa diubah user lewat API
         required: false,
-      }
-    }
-  }
+      },
+    },
+  },
 });
