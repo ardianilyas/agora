@@ -12,6 +12,8 @@ import { createTicketSchema, CreateTicketSchema } from '../schema/ticket.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import InputError from '@/components/InputError'
 import { Textarea } from '@/components/ui/textarea'
+import Title from '@/components/Title'
+import Subtitle from '@/components/Subtitle'
 
 export default function CreateTicketForm() {
   const utils = trpc.useUtils();
@@ -37,8 +39,8 @@ export default function CreateTicketForm() {
   return (
     <div>
         <div>
-          <h1 className='text-2xl text-neutral-800 font-medium'>Create Ticket</h1>
-          <p className='text-neutral-600 text-sm leading-relaxed'>Fill out the form below to create a new ticket.</p>
+          <Title>Create Ticket</Title>
+          <Subtitle>Fill out the form below to create a new ticket.</Subtitle>
         </div>
 
         <div className='p-6 shadow-md rounded-md max-w-xl w-full'>

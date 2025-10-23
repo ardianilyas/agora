@@ -1,5 +1,7 @@
 "use client"
 
+import Subtitle from '@/components/Subtitle'
+import Title from '@/components/Title'
 import { Button } from '@/components/ui/button'
 import { trpc } from '@/utils/trpc'
 import { PlusIcon } from 'lucide-react'
@@ -12,8 +14,8 @@ export default function TicketList() {
     return (
         <>
             <div>
-                <h1 className='text-2xl text-neutral-800 font-medium'>Tickets</h1>
-                <p className='text-neutral-600 text-sm leading-relaxed'>Try to create a new ticket or just solved it.</p>
+                <Title>Tickets</Title>
+                <Subtitle>Try to create a new ticket or just solved it.</Subtitle>
             </div>
             <div>
                 <Link href={"/dashboard/tickets/create"}>
