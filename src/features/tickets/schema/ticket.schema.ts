@@ -13,8 +13,13 @@ export const getTicketSchema = z.object({
 export const updateTicketSchema = z.object({
     id: z.uuid(),
     status: z.enum(TicketStatus),
-})
+});
+
+export const getTicketByStatusSchema = z.object({
+    status: z.enum(TicketStatus),
+});
 
 export type CreateTicketSchema = z.infer<typeof createTicketSchema>;
 export type GetTicketSchema = z.infer<typeof getTicketSchema>;
 export type UpdateTicketSchema = z.infer<typeof updateTicketSchema>;
+export type GetTicketByStatusSchema = z.infer<typeof getTicketByStatusSchema>;

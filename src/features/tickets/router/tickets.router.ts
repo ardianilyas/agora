@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { adminProcedure, authProcedure, router } from "@/server/trpc/trpc";
-import { createTicketSchema, getTicketSchema } from "../schema/ticket.schema";
-import { createTicket, getTicket } from "../service/ticket.service";
+import { createTicketSchema, getTicketByStatusSchema, getTicketSchema } from "../schema/ticket.schema";
+import { createTicket, getTicket, getTicketByStatus } from "../service/ticket.service";
 import { TRPCError } from "@trpc/server";
 
 export const ticketRouter = router({
@@ -27,5 +27,8 @@ export const ticketRouter = router({
     }),
     getAllTickets: adminProcedure.query(async ({ ctx }) => {
         return await ctx.prisma.ticket.findMany();
+    }),
+    getTicketByStatus: adminProcedure.input(getTicketByStatusSchema).query(async ({ ctx, input }) => {
+        return await getTicketByStatus(input.status, ctx);
     }),
 })

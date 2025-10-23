@@ -1,6 +1,6 @@
 import { Context } from "@/server/trpc/context";
 import { CreateTicketSchema } from "../schema/ticket.schema";
-import { Role } from "@/generated/prisma";
+import { Role, TicketStatus } from "@/generated/prisma";
 
 export async function createTicket(ctx: Context, data: CreateTicketSchema) {
     if(!ctx.session?.user) {
@@ -30,4 +30,10 @@ export async function getTicket(id: string, ctx: Context) {
     };
 
     return ticket;
+}
+
+export async function getTicketByStatus(status: TicketStatus, ctx: Context) {
+    return await ctx.prisma.ticket.findMany({
+        where: { status }
+    });
 }
