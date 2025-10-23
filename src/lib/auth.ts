@@ -11,6 +11,11 @@ export const auth = betterAuth({
     autoSignIn: false,
   },
 
+  session: {
+    expiresIn: 60 * 60 * 24 * 2,
+    disableSessionRefresh: true,
+  },
+
   user: {
     additionalFields: {
       role: {
