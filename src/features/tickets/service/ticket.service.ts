@@ -1,6 +1,7 @@
 import { Context } from "@/server/trpc/context";
 import { CreateTicketSchema } from "../schema/ticket.schema";
 import { Role, TicketStatus } from "@/generated/prisma";
+import { TRPCError } from "@trpc/server";
 
 export async function createTicket(ctx: Context, data: CreateTicketSchema) {
     if(!ctx.session?.user) {
@@ -22,11 +23,11 @@ export async function getTicket(id: string, ctx: Context) {
     });
 
     if(!ticket) {
-        throw new Error("Ticket not found");
+        throw new TRPCError({ code: "NOT_FOUND", message: "Ticket not found" });
     };
 
     if(ticket.requesterId !== ctx.session?.user.id && ctx.session?.user.role !== Role.ADMIN) {
-        throw new Error("You dont have permission to view this ticket");
+        throw new TRPCError({ code: "FORBIDDEN", message: "You don't have access to this ticket" });
     };
 
     return ticket;

@@ -1,30 +1,14 @@
 'use client'
 
 import { trpc } from '@/utils/trpc';
-import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
-import { toast } from 'sonner';
 
 export default function TicketDetail({ id }: { id: string }) {
     const ticketId = id;
-    const router = useRouter();
 
-    const { data: ticket, isLoading, error } = trpc.ticket.getTicket.useQuery(
+    const { data: ticket, isLoading } = trpc.ticket.getTicket.useQuery(
         { id: ticketId },
         { enabled: !!ticketId }
     )
-
-    useEffect(() => {
-        if (error?.data?.code === "FORBIDDEN") {
-          // ✅ UX smooth: redirect pelan ke dashboard
-          const timeout = setTimeout(() => {
-            toast.error(error.message);
-            router.replace("/dashboard/tickets");
-          }, 1000);
-    
-          return () => clearTimeout(timeout);
-        }
-    }, [error, router]);
 
     return (
         <>

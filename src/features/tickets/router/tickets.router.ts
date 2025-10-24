@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { adminProcedure, authProcedure, router } from "@/server/trpc/trpc";
 import { createTicketSchema, getTicketByStatusSchema, getTicketSchema } from "../schema/ticket.schema";
 import { createTicket, getTicket, getTicketByStatus } from "../service/ticket.service";
-import { TRPCError } from "@trpc/server";
 
 export const ticketRouter = router({
     getTickets: authProcedure.query(async ({ ctx }) => {
@@ -15,15 +13,8 @@ export const ticketRouter = router({
         return await createTicket(ctx, input);
     }),
     getTicket: authProcedure.input(getTicketSchema).query(async ({ ctx, input }) => {
-        try {
-            const ticket = await getTicket(input.id, ctx);
-            return ticket;
-        } catch (error: any) {
-            throw new TRPCError({
-                code: 'FORBIDDEN',
-                message: error.message
-            });
-        };
+        const ticket = await getTicket(input.id, ctx);
+        return ticket;
     }),
     getAllTickets: adminProcedure.query(async ({ ctx }) => {
         return await ctx.prisma.ticket.findMany();

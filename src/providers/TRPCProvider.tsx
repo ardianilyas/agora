@@ -1,21 +1,32 @@
 'use client'
 
-import { trpc } from "@/utils/trpc";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { httpBatchLink } from "@trpc/client";
+import { handleTrpcError } from "@/lib/trpcErrorHandler";
+import { trpc, trpcClientOptions } from "@/utils/trpc";
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useState } from "react";
-import superjson from "superjson";
 
 export function TRPCProvider({ children }: { children: ReactNode }) {
-    const [queryClient] = useState(() => new QueryClient());
+    const [queryClient] = useState(() => {
+        const qc = new QueryClient({
+            queryCache: new QueryCache({
+                onError: (error) => handleTrpcError(error),
+            }),
+            mutationCache: new MutationCache({
+                onError: (error) => handleTrpcError(error),
+            }),
+            defaultOptions: {
+                queries: {
+                    retry: false,
+                    refetchOnWindowFocus: false
+                },
+            },
+        });
+        return qc;
+    });
+
     const [trpcClient] = useState(() =>
         trpc.createClient({
-            links: [
-                httpBatchLink({
-                    url: "/api/trpc",
-                    transformer: superjson
-                })
-            ]
+            ...trpcClientOptions,
         }),
     );
 
@@ -25,4 +36,5 @@ export function TRPCProvider({ children }: { children: ReactNode }) {
                 {children}
             </QueryClientProvider>
         </trpc.Provider>
-    )}
+    )
+}
