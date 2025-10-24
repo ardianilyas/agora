@@ -4,9 +4,7 @@ import { Role, TicketStatus } from "@/generated/prisma";
 import { TRPCError } from "@trpc/server";
 
 export async function createTicket(ctx: Context, data: CreateTicketSchema) {
-    if(!ctx.session?.user) {
-        throw new Error("Unauthorized");
-    }
+    if(!ctx.session?.user) throw new TRPCError({ code: "UNAUTHORIZED", message: "Unauthorized"});
 
     return await ctx.prisma.ticket.create({
         data: {
