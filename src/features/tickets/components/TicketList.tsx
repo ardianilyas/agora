@@ -3,10 +3,13 @@
 import Subtitle from '@/components/Subtitle'
 import Title from '@/components/Title'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { trpc } from '@/utils/trpc'
 import { PlusIcon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import TicketStatus from './ui/TicketStatus'
 
 export default function TicketList() {
     const { data: tickets, isLoading } = trpc.ticket.getTickets.useQuery();
@@ -30,23 +33,37 @@ export default function TicketList() {
                 {isLoading ? (
                     <div className="text-neutral-600">Loading...</div>
                 ) : tickets && tickets.length > 0 ? (
-                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {tickets.map((ticket) => (
-                            <Link
-                            href={`/dashboard/tickets/${ticket.id}`}
-                            key={ticket.id}
-                            className="p-4 border border-neutral-200 rounded-lg"
-                            >
-                                <h2 className="text-lg font-semibold text-neutral-800">
-                                    {ticket.title}
-                                </h2>
-                                <p className="text-sm text-neutral-600">{ticket.description}</p>
-                                <span className="text-xs text-neutral-500">
-                                    Status: {ticket.status}
-                                </span>
-                            </Link>
-                        ))}
-                    </div>
+                        <Card>
+                            <CardContent>
+                                <Table>
+                                    <TableCaption>Tickets</TableCaption>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>ID</TableHead>
+                                            <TableHead>Title</TableHead>
+                                            <TableHead>Description</TableHead>
+                                            <TableHead>Status</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {tickets.map((ticket) => (
+                                            <TableRow key={ticket.id}>
+                                                <TableCell>
+                                                    <Link className='text-blue-500 hover:text-blue-600 underline underline-offset-4' href={`/dashboard/tickets/${ticket.id}`}>
+                                                        {ticket.id}
+                                                    </Link>
+                                                </TableCell>
+                                                <TableCell>{ticket.title}</TableCell>
+                                                <TableCell>{ticket.description}</TableCell>
+                                                <TableCell>
+                                                    <TicketStatus status={ticket.status} />
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </CardContent>
+                        </Card>
                 ) : (
                     <p className="text-neutral-600">
                     No tickets found. Create a new ticket to get started.
