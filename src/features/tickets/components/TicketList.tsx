@@ -30,7 +30,7 @@ export default function TicketList() {
                 {isLoading ? (
                     <div className="text-neutral-600">Loading...</div>
                 ) : tickets && tickets.length > 0 ? (
-                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 space-x-4">
+                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                         {tickets.map((ticket) => (
                             <Link
                             href={`/dashboard/tickets/${ticket.id}`}
