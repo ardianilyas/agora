@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./lib/auth";
-import { Role } from "./generated/prisma";
+import { Role } from "@/constants/role"
 import { betterFetch } from "@better-fetch/fetch";
 
 type Session = typeof auth.$Infer.Session;
