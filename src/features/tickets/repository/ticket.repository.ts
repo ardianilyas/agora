@@ -6,7 +6,14 @@ type CreateTicketRepositoryInput = CreateTicketSchema & { requesterId: string };
 
 async function getTickets(userId: string) {
     return await prisma.ticket.findMany({
-        where: { requesterId: userId }
+        where: { requesterId: userId },
+        include: {
+            requester: {
+                select: {
+                    email: true,
+                }
+            }
+        }
     });
 };
 
