@@ -10,6 +10,7 @@ import { PlusIcon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import TicketStatus from './ui/TicketStatus'
+import TicketPriority from './ui/TicketPriority'
 
 export default function TicketList() {
     const { data: tickets, isLoading } = trpc.ticket.getTickets.useQuery();
@@ -42,6 +43,7 @@ export default function TicketList() {
                                             <TableHead>ID</TableHead>
                                             <TableHead>Title</TableHead>
                                             <TableHead>Description</TableHead>
+                                            <TableHead>Priority</TableHead>
                                             <TableHead>Status</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -55,6 +57,9 @@ export default function TicketList() {
                                                 </TableCell>
                                                 <TableCell>{ticket.title}</TableCell>
                                                 <TableCell>{ticket.description}</TableCell>
+                                                <TableCell>
+                                                    <TicketPriority priority={ticket.priority} />
+                                                </TableCell>
                                                 <TableCell>
                                                     <TicketStatus status={ticket.status} />
                                                 </TableCell>

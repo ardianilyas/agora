@@ -1,9 +1,10 @@
-import { TicketStatus } from "@/generated/prisma";
+import { TicketPriority, TicketStatus } from "@/generated/prisma";
 import z from "zod";
 
 export const createTicketSchema = z.object({
     title: z.string().min(1, 'Title is required'),
     description: z.string().min(1, 'Description is required'),
+    priority: z.enum(TicketPriority),
 });
 
 export const getTicketSchema = z.object({
@@ -12,7 +13,8 @@ export const getTicketSchema = z.object({
 
 export const updateTicketSchema = z.object({
     id: z.uuid(),
-    status: z.enum(TicketStatus),
+    status: z.enum(TicketStatus).optional(),
+    priority: z.enum(TicketPriority).optional(),
 });
 
 export const getTicketByStatusSchema = z.object({
