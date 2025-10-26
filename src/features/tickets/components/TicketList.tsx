@@ -56,7 +56,11 @@ export default function TicketList() {
                                                     </Link>
                                                 </TableCell>
                                                 <TableCell>{ticket.title}</TableCell>
-                                                <TableCell>{ticket.description}</TableCell>
+                                                <TableCell>
+                                                    <div className="line-clamp-2 whitespace-normal break-words">
+                                                        {ticket.description}
+                                                    </div>
+                                                </TableCell>
                                                 <TableCell>
                                                     <TicketPriority priority={ticket.priority} />
                                                 </TableCell>
