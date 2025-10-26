@@ -14,7 +14,7 @@ const PRIORITY_LABELS: Record<TicketPriorityType, string> = {
 }
   
 const PRIORITY_STYLES: Record<TicketPriorityType, string> = {
-    URGENT: "bg-red-100 text-red-700 border-red-300",
+    URGENT: "bg-red-200 text-red-800 border-red-400",
     HIGH: "bg-rose-100 text-rose-700 border-rose-300",
     MEDIUM: "bg-yellow-100 text-yellow-700 border-yellow-300",
     LOW: "bg-green-100 text-green-700 border-green-300",
